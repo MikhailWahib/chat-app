@@ -1,14 +1,24 @@
 package main
 
+import (
+	"chat-app/utils"
+)
+
 type Room struct {
+	ID         string
+	name       string
+	Password   string
 	clients    map[*Client]bool
 	broadcast  chan Message
 	register   chan *Client
 	unregister chan *Client
 }
 
-func newRoom() *Room {
+func newRoom(name string, pwd string) *Room {
 	return &Room{
+		ID:         utils.RandomString(5),
+		name:       name,
+		Password:   pwd,
 		broadcast:  make(chan Message),
 		register:   make(chan *Client),
 		unregister: make(chan *Client),

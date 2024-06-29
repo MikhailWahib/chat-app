@@ -67,6 +67,7 @@ func serveWs(room *Room, w http.ResponseWriter, r *http.Request) {
 		log.Println(err)
 		return
 	}
+
 	client := &Client{room: room, conn: conn, send: make(chan Message)}
 	client.room.register <- client
 
