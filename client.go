@@ -42,7 +42,10 @@ func (c *Client) readPump() {
 }
 
 func (c *Client) writePump() {
-	defer c.conn.Close()
+	defer func() {
+		c.room.unregister <- c
+		c.conn.Close()
+	}()
 
 	for {
 		msg, ok := <-c.send

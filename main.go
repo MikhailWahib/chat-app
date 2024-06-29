@@ -16,14 +16,14 @@ func main() {
 	go room.run()
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte("Server running"))
+		w.Write([]byte("Server is running"))
 	})
 
 	http.HandleFunc("/ws", func(w http.ResponseWriter, r *http.Request) {
 		serveWs(room, w, r)
 	})
 
-	fmt.Println("Server running on", *addr)
+	fmt.Println("Server is running on", *addr)
 	err := http.ListenAndServe(*addr, nil)
 	if err != nil {
 		log.Fatal("ListenAndServe: ", err)
