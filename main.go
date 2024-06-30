@@ -45,19 +45,12 @@ func main() {
 	r.HandleFunc("/ws", func(w http.ResponseWriter, r *http.Request) {
 		roomId := r.URL.Query().Get("roomId")
 		roomPassword := r.URL.Query().Get("roomPassword")
-
-		var room Room
-		for _, r := range rooms {
-			if roomId == r.ID {
-				room = *r
-			}
-		}
-
 		w.Header().Set("Content-Type", "application/json")
-		if room.ID == "" {
+
+		room, found := rooms[roomId]
+		if !found {
 			w.WriteHeader(http.StatusNotFound)
 			json.NewEncoder(w).Encode(map[string]string{"error": "Room with this ID not found"})
-
 			return
 		}
 
@@ -68,7 +61,7 @@ func main() {
 			return
 		}
 
-		serveWs(&room, w, r)
+		serveWs(room, w, r)
 	})
 
 	http.Handle("/", r)
