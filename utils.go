@@ -1,4 +1,4 @@
-package utils
+package main
 
 import (
 	"math/rand"
@@ -20,6 +20,6 @@ func stringWithCharset(length int, charset string) string {
 	return string(b)
 }
 
-func RandomString(length int) string {
+func GenerateId(length int) string {
 	return stringWithCharset(length, charset)
 }

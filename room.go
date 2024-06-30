@@ -1,9 +1,5 @@
 package main
 
-import (
-	"chat-app/utils"
-)
-
 type Room struct {
 	ID         string
 	name       string
@@ -16,7 +12,7 @@ type Room struct {
 
 func newRoom(name string, pwd string) *Room {
 	return &Room{
-		ID:         utils.RandomString(5),
+		ID:         GenerateId(5),
 		name:       name,
 		Password:   pwd,
 		broadcast:  make(chan Message),
