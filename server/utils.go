@@ -1,7 +1,9 @@
 package main
 
 import (
+	"encoding/json"
 	"math/rand"
+	"net/http"
 	"time"
 )
 
@@ -22,4 +24,10 @@ func stringWithCharset(length int, charset string) string {
 
 func GenerateId(length int) string {
 	return stringWithCharset(length, charset)
+}
+
+func JsonResponse(w http.ResponseWriter, data any, statusCode int) {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(statusCode)
+	json.NewEncoder(w).Encode(data)
 }

@@ -17,6 +17,7 @@ var upgrader = websocket.Upgrader{
 }
 
 type Client struct {
+	name string
 	room *Room
 	conn *websocket.Conn
 	send chan Message
@@ -61,14 +62,14 @@ func (c *Client) writePump() {
 	}
 }
 
-func serveWs(room *Room, w http.ResponseWriter, r *http.Request) {
+func serveWs(room *Room, memberName string, w http.ResponseWriter, r *http.Request) {
 	conn, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
 		log.Println(err)
 		return
 	}
 
-	client := &Client{room: room, conn: conn, send: make(chan Message)}
+	client := &Client{name: memberName, room: room, conn: conn, send: make(chan Message)}
 	client.room.register <- client
 
 	go client.writePump()

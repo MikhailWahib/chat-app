@@ -21,8 +21,8 @@ func main() {
 	r.HandleFunc("/rooms", GetRooms).Methods("GET")
 	// ?name={}&password={}
 	r.HandleFunc("/rooms", CreateRoom).Methods("POST")
-	// ?id={}&password={}
-	r.HandleFunc("/ws", HandleWs)
+	// ?id={}&password={}&memberName={}
+	r.HandleFunc("/ws", JoinRoom)
 
 	http.Handle("/", r)
 
