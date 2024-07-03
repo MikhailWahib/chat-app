@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"net/http"
 )
 
@@ -15,10 +14,8 @@ func GetRooms(w http.ResponseWriter, r *http.Request) {
 	var res []RoomsRes
 
 	for _, r := range rooms {
-		fmt.Println(r.clients)
 		res = append(res, RoomsRes{r.id, r.name, make([]string, 0)})
 		for member := range r.clients {
-			fmt.Println(member.name)
 			res[len(res)-1].Members = append(res[len(res)-1].Members, member.name)
 		}
 	}

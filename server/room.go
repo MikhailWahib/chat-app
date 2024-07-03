@@ -1,7 +1,5 @@
 package main
 
-import "fmt"
-
 type Room struct {
 	id         string
 	name       string
@@ -31,7 +29,6 @@ func (r *Room) run() {
 		select {
 		case client := <-r.register:
 			r.clients[client] = true
-			fmt.Println(r.clients)
 		case client := <-r.unregister:
 			if _, ok := r.clients[client]; ok {
 				delete(r.clients, client)
