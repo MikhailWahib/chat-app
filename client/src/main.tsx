@@ -2,9 +2,11 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import './index.css'
+import MainLayout from './components/Shared/MainLayout.tsx'
 import Home from './pages/Home.tsx'
 import Rooms from './pages/Rooms.tsx'
-import MainLayout from './components/Shared/MainLayout.tsx'
+import Room from './pages/Room.tsx'
+import { UsernameProvider } from './providers.tsx'
 
 const router = createBrowserRouter([
 	{
@@ -15,10 +17,16 @@ const router = createBrowserRouter([
 		path: '/rooms',
 		element: <MainLayout children={<Rooms />} />,
 	},
+	{
+		path: '/room/:roomId',
+		element: <MainLayout children={<Room />} />,
+	},
 ])
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
 	<React.StrictMode>
-		<RouterProvider router={router} />
+		<UsernameProvider>
+			<RouterProvider router={router} />
+		</UsernameProvider>
 	</React.StrictMode>
 )

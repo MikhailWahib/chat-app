@@ -1,5 +1,6 @@
-import { useState } from 'react'
+import { useContext, useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { UsernameContext } from '../../providers'
 
 const CreateRoomModal = ({
 	setShowModal,
@@ -7,21 +8,25 @@ const CreateRoomModal = ({
 	setShowModal: (val: boolean) => void
 }) => {
 	const navigate = useNavigate()
+	const { username, setUsername } = useContext(UsernameContext)
 
-	const [name, setName] = useState<string>('')
+	const usernameInputRef = useRef<HTMLInputElement>(null)
+
+	const [roomName, setRoomName] = useState<string>('')
 	const [password, setPassword] = useState<string>('')
 	const [error, setError] = useState<string>('')
 
 	const formHandler = async (e: React.FormEvent) => {
 		e.preventDefault()
 
-		if (name === '' || password === '') {
-			setError('Please enter valid name and password')
+		console.log(username)
+		if (username === '' || roomName === '' || password === '') {
+			setError('Please fill all fields')
 			return
 		}
 
 		const res = await fetch(
-			`http://localhost:8080/rooms?name=${name}&password=${password}`,
+			`http://localhost:8080/rooms?name=${roomName}&password=${password}`,
 			{
 				method: 'POST',
 			}
@@ -34,14 +39,18 @@ const CreateRoomModal = ({
 
 		const data = await res.json()
 
-		console.log(data)
-
-		navigate(`/${data.roomId}`)
+		navigate(`/room/${data.roomId}`)
 	}
+
+	useEffect(() => {
+		if (username.length > 0 && usernameInputRef.current) {
+			usernameInputRef.current.value = username
+		}
+	}, [])
 
 	return (
 		<div className='flex absolute top-0 left-0 h-screen w-full z-50 bg-black/50'>
-			<div className='relative flex justify-center items-center h-[50%] rounded border border-gray-600 bg-black m-auto'>
+			<div className='relative flex justify-center items-center h-[50%] w-[25%] rounded border border-gray-600 bg-black m-auto'>
 				<button
 					className='absolute top-4 right-5'
 					onClick={() => setShowModal(false)}
@@ -50,18 +59,25 @@ const CreateRoomModal = ({
 				</button>
 				<form
 					onSubmit={formHandler}
-					className='flex flex-col px-10 text-start gap-1 text-xl'
+					className='flex flex-col w-full px-5 text-start gap-1 text-xl'
 				>
-					<label>Room name: </label>
+					<label>Your Name</label>
 					<input
+						ref={usernameInputRef}
 						type='text'
-						className='mb-5 rounded bg-black border border-gray-600'
-						onChange={(e) => setName(e.target.value)}
+						className='mb-5 px-2 py-1 text-sm rounded bg-black border border-gray-600'
+						onChange={(e) => setUsername(e.target.value)}
 					/>
-					<label>Room Password</label>
+					<label>Room Name: </label>
 					<input
 						type='text'
-						className='rounded bg-black border border-gray-600'
+						className='mb-5 px-2 py-1 text-sm rounded bg-black border border-gray-600'
+						onChange={(e) => setRoomName(e.target.value)}
+					/>
+					<label>Room Password: </label>
+					<input
+						type='password'
+						className='px-2 py-1 text-sm rounded bg-black border border-gray-600'
 						onChange={(e) => setPassword(e.target.value)}
 					/>
 					<div className='text-red-700 text-sm'>{error}</div>
