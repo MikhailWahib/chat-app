@@ -19,7 +19,6 @@ const CreateRoomModal = ({
 	const formHandler = async (e: React.FormEvent) => {
 		e.preventDefault()
 
-		console.log(username)
 		if (username === '' || roomName === '' || password === '') {
 			setError('Please fill all fields')
 			return
@@ -46,6 +45,7 @@ const CreateRoomModal = ({
 		if (username.length > 0 && usernameInputRef.current) {
 			usernameInputRef.current.value = username
 		}
+		// eslint-disable-next-line
 	}, [])
 
 	return (
