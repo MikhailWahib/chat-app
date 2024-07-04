@@ -10,6 +10,12 @@ type Room struct {
 	unregister chan *Client
 }
 
+type Message struct {
+	Type     string `json:"type"`
+	Username string `json:"username"`
+	Message  string `json:"message"`
+}
+
 var rooms = make(map[string]*Room)
 
 func newRoom(name string, pwd string) *Room {
@@ -29,6 +35,9 @@ func (r *Room) run() {
 		select {
 		case client := <-r.register:
 			r.clients[client] = true
+			for c := range r.clients {
+				c.send <- Message{Type: "join", Username: client.name, Message: client.name + "joined the room"}
+			}
 		case client := <-r.unregister:
 			if _, ok := r.clients[client]; ok {
 				delete(r.clients, client)
