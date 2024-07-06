@@ -1,6 +1,7 @@
 package main
 
 import (
+	"chat-app/api/handlers"
 	"flag"
 	"fmt"
 	"log"
@@ -32,11 +33,11 @@ func main() {
 		w.Write([]byte("Server is running"))
 	})
 
-	r.HandleFunc("/rooms", GetRooms).Methods("GET")
+	r.HandleFunc("/rooms", handlers.GetRooms).Methods("GET")
 	// ?name={}&password={}
-	r.HandleFunc("/rooms", CreateRoom).Methods("POST")
+	r.HandleFunc("/rooms", handlers.CreateRoom).Methods("POST")
 	// ?id={}&password={}&memberName={}
-	r.HandleFunc("/ws", JoinRoom)
+	r.HandleFunc("/ws", handlers.JoinRoom)
 
 	corsHandler := corsMiddleware(r)
 
