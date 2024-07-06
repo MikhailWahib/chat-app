@@ -18,9 +18,17 @@ type Client struct {
 	send chan Message
 }
 
-func (c *Client) readPump() {
+type Message struct {
+	Type     string `json:"type"`
+	Username string `json:"username"`
+	Content  string `json:"message"`
+	RoomId   string `json:"roomId"`
+}
+
+func (c *Client) readPump(hub *Hub) {
 	defer func() {
-		c.Room.Unregister <- c
+		hub.Unregister <- c
+		hub.Broadcast <- Message{Type: "leave", Username: c.Name, Content: "left.", RoomId: c.Room.Id}
 		c.conn.Close()
 	}()
 
@@ -33,13 +41,12 @@ func (c *Client) readPump() {
 			}
 			break
 		}
-		c.Room.Broadcast <- message
+		hub.Broadcast <- message
 	}
 }
 
 func (c *Client) writePump() {
 	defer func() {
-		c.Room.Unregister <- c
 		c.conn.Close()
 	}()
 
@@ -49,24 +56,6 @@ func (c *Client) writePump() {
 			return
 		}
 
-		err := c.conn.WriteJSON(msg)
-		if err != nil {
-			log.Println("error writing message:", err)
-			break
-		}
+		c.conn.WriteJSON(msg)
 	}
-}
-
-func ServeWs(room *Room, memberName string, w http.ResponseWriter, r *http.Request) {
-	conn, err := upgrader.Upgrade(w, r, nil)
-	if err != nil {
-		log.Println(err)
-		return
-	}
-
-	client := &Client{Name: memberName, Room: room, conn: conn, send: make(chan Message)}
-	client.Room.Register <- client
-
-	go client.writePump()
-	go client.readPump()
 }
