@@ -2,8 +2,9 @@ package ws
 
 import (
 	"chat-app/utils"
-	"log"
 	"net/http"
+
+	"github.com/gorilla/mux"
 )
 
 type RoomsRes struct {
@@ -23,7 +24,7 @@ func NewHandler(h *Hub) *Handler {
 }
 
 func (h *Handler) GetRooms(w http.ResponseWriter, r *http.Request) {
-	var res []RoomsRes
+	var res []RoomsRes = make([]RoomsRes, 0)
 
 	for _, r := range h.hub.Rooms {
 		res = append(res, RoomsRes{r.Id, r.Name, make([]string, 0)})
@@ -37,18 +38,16 @@ func (h *Handler) GetRooms(w http.ResponseWriter, r *http.Request) {
 
 func (h *Handler) CreateRoom(w http.ResponseWriter, r *http.Request) {
 	name := r.URL.Query().Get("name")
-	password := r.URL.Query().Get("password")
 
-	if name == "" || password == "" {
+	if name == "" {
 		utils.JsonResponse(w, map[string]string{"error": "Room must have a name and a password"}, 400)
 		return
 	}
 
 	room := &Room{
-		Id:       utils.GenerateId(5),
-		Name:     name,
-		Password: password,
-		Clients:  make(map[*Client]bool),
+		Id:      utils.GenerateId(5),
+		Name:    name,
+		Clients: make(map[*Client]bool),
 	}
 	h.hub.Rooms[room.Id] = room
 
@@ -56,20 +55,18 @@ func (h *Handler) CreateRoom(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *Handler) JoinRoom(w http.ResponseWriter, r *http.Request) {
-	roomId := r.URL.Query().Get("id")
-	roomPassword := r.URL.Query().Get("password")
-	username := r.URL.Query().Get("username")
-
-	room, ok := h.hub.Rooms[roomId]
-
-	if !ok || room.Password != roomPassword {
-		utils.JsonResponse(w, map[string]string{"error": "Wrong password or room id"}, http.StatusForbidden)
+	conn, err := upgrader.Upgrade(w, r, nil)
+	if err != nil {
+		utils.JsonResponse(w, map[string]string{"error": err.Error()}, http.StatusBadRequest)
 		return
 	}
 
-	conn, err := upgrader.Upgrade(w, r, nil)
-	if err != nil {
-		log.Println(err)
+	roomId := mux.Vars(r)["roomId"]
+	username := r.URL.Query().Get("username")
+
+	room, ok := h.hub.Rooms[roomId]
+	if !ok {
+		utils.JsonResponse(w, map[string]string{"error": "Room with this ID not found"}, http.StatusNotFound)
 		return
 	}
 

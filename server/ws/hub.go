@@ -1,10 +1,9 @@
 package ws
 
 type Room struct {
-	Id       string
-	Name     string
-	Password string
-	Clients  map[*Client]bool
+	Id      string
+	Name    string
+	Clients map[*Client]bool
 }
 
 type Hub struct {

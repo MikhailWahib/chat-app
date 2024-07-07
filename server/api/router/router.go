@@ -31,10 +31,10 @@ func InitRouter(wsHandler *ws.Handler) {
 		w.Write([]byte("Server is running"))
 	})
 	r.HandleFunc("/rooms", wsHandler.GetRooms).Methods("GET")
-	// ?name={}&password={}
+	// ?name={}
 	r.HandleFunc("/rooms", wsHandler.CreateRoom).Methods("POST")
-	// ?id={}&password={}&username={}
-	r.HandleFunc("/ws", wsHandler.JoinRoom)
+	// ?username={}
+	r.HandleFunc("/ws/{roomId}", wsHandler.JoinRoom)
 
 	http.Handle("/", r)
 }
