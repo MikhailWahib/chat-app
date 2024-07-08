@@ -9,8 +9,6 @@ const Rooms = () => {
 		const res = await fetch('http://localhost:8080/rooms')
 		const data = await res.json()
 
-		console.log(data)
-
 		setRooms(data)
 	}
 

@@ -3,3 +3,10 @@ export interface Room {
 	name: string
 	members: string[]
 }
+
+export interface Message {
+	type: string
+	username: string
+	content: string
+	roomId: string
+}
