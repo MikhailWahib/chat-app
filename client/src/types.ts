@@ -4,7 +4,7 @@ export interface Room {
 	members: string[]
 }
 
-export interface Message {
+export interface IMessage {
 	type: string
 	username: string
 	content: string
