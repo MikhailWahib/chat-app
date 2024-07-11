@@ -6,7 +6,8 @@ import MainLayout from './components/Shared/MainLayout.tsx'
 import Home from './pages/Home.tsx'
 import Rooms from './pages/Rooms.tsx'
 import Room from './pages/Room.tsx'
-import { UsernameProvider } from './providers.tsx'
+import { UsernameProvider } from './providers/UsernameProvider.tsx'
+import { WebSocketProvider } from './providers/WSProvider.tsx'
 
 const router = createBrowserRouter([
 	{
@@ -25,8 +26,10 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
 	<React.StrictMode>
-		<UsernameProvider>
-			<RouterProvider router={router} />
-		</UsernameProvider>
+		<WebSocketProvider>
+			<UsernameProvider>
+				<RouterProvider router={router} />
+			</UsernameProvider>
+		</WebSocketProvider>
 	</React.StrictMode>
 )

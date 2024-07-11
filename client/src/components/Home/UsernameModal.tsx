@@ -1,5 +1,5 @@
 import { useContext, useEffect, useRef, useState } from 'react'
-import { UsernameContext } from '../../providers'
+import { UsernameContext } from '../../providers/UsernameProvider'
 import { useNavigate } from 'react-router-dom'
 
 const UsernameModal = ({
@@ -17,6 +17,7 @@ const UsernameModal = ({
 	useEffect(() => {
 		if (username !== '' && inputRef.current) {
 			inputRef.current.value = username
+			setUsernameInput(username)
 		}
 		// eslint-disable-next-line
 	}, [])
@@ -24,7 +25,7 @@ const UsernameModal = ({
 	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault()
 
-		if (usernameInput === '') {
+		if (usernameInput === '' && username === '') {
 			setError('Please enter a username')
 			return
 		}
@@ -52,6 +53,7 @@ const UsernameModal = ({
 						ref={inputRef}
 						type='text'
 						onChange={(e) => setUsernameInput(e.target.value)}
+						value={usernameInput}
 						className='my-5 px-2 py-1 text-sm rounded bg-black border border-gray-600'
 					/>
 					{error && <div className='text-red-700 text-sm'>{error}</div>}

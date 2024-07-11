@@ -1,6 +1,6 @@
 import { useContext, useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { UsernameContext } from '../../providers'
+import { UsernameContext } from '../../providers/UsernameProvider'
 
 const CreateRoomModal = ({
 	setShowCreateRoomModal,
