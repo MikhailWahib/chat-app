@@ -33,6 +33,7 @@ const CreateRoomModal = ({
 		}
 
 		const data = await res.json()
+		console.log(data)
 
 		navigate(`/room/${data.roomId}`)
 	}

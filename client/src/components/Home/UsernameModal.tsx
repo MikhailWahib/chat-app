@@ -34,25 +34,36 @@ const UsernameModal = ({
 	}
 
 	return (
-		<>
-			<button
-				className='absolute top-4 right-5'
-				onClick={() => setShowUsernameModal(false)}
-			>
-				X
-			</button>
-			<form onSubmit={handleSubmit}>
-				<label>Enter your name: </label>
-				<input
-					autoFocus
-					ref={inputRef}
-					type='text'
-					onChange={(e) => setUsernameInput(e.target.value)}
-				/>
-				{error && <div className='text-red-700 text-sm'>{error}</div>}
-				<button formAction='submit'>Continue</button>
-			</form>
-		</>
+		<div className='flex absolute top-0 left-0 h-screen w-full z-50 bg-black/50'>
+			<div className='relative flex justify-center items-center h-[50%] w-[25%] rounded border border-gray-600 bg-black m-auto'>
+				<button
+					className='absolute top-4 right-5'
+					onClick={() => setShowUsernameModal(false)}
+				>
+					X
+				</button>
+				<form
+					onSubmit={handleSubmit}
+					className='flex flex-col w-full px-5 text-start gap-1 text-xl'
+				>
+					<label>Enter your name: </label>
+					<input
+						autoFocus
+						ref={inputRef}
+						type='text'
+						onChange={(e) => setUsernameInput(e.target.value)}
+						className='my-5 px-2 py-1 text-sm rounded bg-black border border-gray-600'
+					/>
+					{error && <div className='text-red-700 text-sm'>{error}</div>}
+					<button
+						formAction='submit'
+						className='p-2 bg-black border border-gray-600 rounded hover:shadow-2xl hover:shadow-white/15 hover:scale-[1.01] transition-all duration-200'
+					>
+						Continue
+					</button>
+				</form>
+			</div>
+		</div>
 	)
 }
 
