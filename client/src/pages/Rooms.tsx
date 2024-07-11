@@ -20,8 +20,8 @@ const Rooms = () => {
 		<>
 			<h2 className='text-2xl mb-5'>Online Rooms: </h2>
 			<div className='flex gap-5'>
-				{rooms?.map((room) => {
-					return <RoomCard room={room} />
+				{rooms?.map((room, i) => {
+					return <RoomCard key={i} room={room} />
 				})}
 			</div>
 		</>
