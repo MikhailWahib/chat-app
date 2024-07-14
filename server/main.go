@@ -1,7 +1,7 @@
 package main
 
 import (
-	"chat-app/api/router"
+	"chat-app/router"
 	"chat-app/ws"
 )
 
