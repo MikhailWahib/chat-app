@@ -36,7 +36,7 @@ const UsernameModal = ({
 
 	return (
 		<div className='flex absolute top-0 left-0 h-screen w-full z-50 bg-black/50'>
-			<div className='relative flex justify-center items-center h-[50%] w-[25%] rounded border border-gray-600 bg-black m-auto'>
+			<div className='relative flex justify-center items-center w-full max-w-[75%] md:max-w-[30%] py-10 rounded border border-gray-600 bg-black m-auto'>
 				<button
 					className='absolute top-4 right-5'
 					onClick={() => setShowUsernameModal(false)}

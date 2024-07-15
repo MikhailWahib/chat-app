@@ -5,7 +5,7 @@ import UsernameModal from '../components/Home/UsernameModal'
 const Home = () => {
 	const [showCreateRoomModal, setShowCreateRoomModal] = useState<boolean>(false)
 	const [showUsernameModal, setShowUsernameModal] = useState<boolean>(false)
-	
+
 	return (
 		<div className='text-center'>
 			{showCreateRoomModal && (
@@ -14,8 +14,8 @@ const Home = () => {
 			{showUsernameModal && (
 				<UsernameModal setShowUsernameModal={setShowUsernameModal} />
 			)}
-			<h1 className='text-5xl'>Welcome!</h1>
-			<div className='flex gap-16 justify-center text-3xl mt-52'>
+			<h1 className='text-4xl md:text-5xl'>Welcome!</h1>
+			<div className='flex flex-col md:flex-row gap-16 justify-center text-3xl mt-52'>
 				<button
 					onClick={() => setShowCreateRoomModal(true)}
 					className='w-72 h-24 p-2 border border-gray-600 rounded hover:shadow-2xl hover:shadow-white/15 hover:scale-[1.01] transition-all duration-200'
