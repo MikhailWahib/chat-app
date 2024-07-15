@@ -6,7 +6,7 @@ const Rooms = () => {
 	const [rooms, setRooms] = useState<Room[]>([])
 
 	const getRooms = async () => {
-		const res = await fetch('http://localhost:8080/rooms')
+		const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/rooms`)
 		const data = await res.json()
 
 		setRooms(data)

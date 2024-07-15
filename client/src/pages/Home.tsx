@@ -5,6 +5,7 @@ import UsernameModal from '../components/Home/UsernameModal'
 const Home = () => {
 	const [showCreateRoomModal, setShowCreateRoomModal] = useState<boolean>(false)
 	const [showUsernameModal, setShowUsernameModal] = useState<boolean>(false)
+	
 	return (
 		<div className='text-center'>
 			{showCreateRoomModal && (
