@@ -7,7 +7,7 @@ import (
 	"github.com/gorilla/mux"
 )
 
-type RoomsRes struct {
+type RoomRes struct {
 	Id      string   `json:"id"`
 	Name    string   `json:"name"`
 	Members []string `json:"members"`
@@ -23,11 +23,28 @@ func NewHandler(h *Hub) *Handler {
 	}
 }
 
+func (h *Handler) GetRoomById(w http.ResponseWriter, r *http.Request) {
+	roomId := mux.Vars(r)["roomId"]
+
+	room, ok := h.hub.Rooms[roomId]
+	if !ok {
+		utils.JsonResponse(w, map[string]string{"error": "Room with this ID not found"}, 404)
+	}
+
+	res := RoomRes{Id: room.Id, Name: room.Name, Members: make([]string, 0)}
+
+	for member := range room.Clients {
+		res.Members = append(res.Members, member.Name)
+	}
+
+	utils.JsonResponse(w, res, 200)
+}
+
 func (h *Handler) GetRooms(w http.ResponseWriter, r *http.Request) {
-	var res []RoomsRes = make([]RoomsRes, 0)
+	var res []RoomRes = make([]RoomRes, 0)
 
 	for _, r := range h.hub.Rooms {
-		res = append(res, RoomsRes{r.Id, r.Name, make([]string, 0)})
+		res = append(res, RoomRes{r.Id, r.Name, make([]string, 0)})
 		for member := range r.Clients {
 			res[len(res)-1].Members = append(res[len(res)-1].Members, member.Name)
 		}
