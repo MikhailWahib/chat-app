@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react'
 import RoomCard from '../components/Rooms/RoomCard'
-import { Room } from '../types'
+import { IRoom } from '../types'
 
 const Rooms = () => {
-  const [rooms, setRooms] = useState<Room[]>([])
+  const [rooms, setRooms] = useState<IRoom[]>([])
 
   const getRooms = async () => {
     const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/rooms`)

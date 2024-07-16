@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
-import { Room } from '../../types'
+import { IRoom } from '../../types'
 
-const RoomCard = ({ room }: { room: Room }) => {
+const RoomCard = ({ room }: { room: IRoom }) => {
   return (
     <Link to={`/room/${room.id}`}>
       <div className="relative w-52 h-full p-2 border border-gray-600 rounded hover:shadow-2xl hover:shadow-white/15 hover:scale-[1.01] transition-all duration-200">
