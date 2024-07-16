@@ -40,7 +40,7 @@ func (h *Handler) GetRoomById(w http.ResponseWriter, r *http.Request) {
 	utils.JsonResponse(w, res, 200)
 }
 
-func (h *Handler) GetRooms(w http.ResponseWriter, r *http.Request) {
+func (h *Handler) GetAllRooms(w http.ResponseWriter, r *http.Request) {
 	var res []RoomRes = make([]RoomRes, 0)
 
 	for _, r := range h.hub.Rooms {

@@ -18,7 +18,7 @@ func InitRouter(wsHandler *ws.Handler) {
 		w.Write([]byte("Server is running"))
 	})
 	r.HandleFunc("/room/{roomId}", wsHandler.GetRoomById).Methods("GET")
-	r.HandleFunc("/rooms", wsHandler.GetRooms).Methods("GET")
+	r.HandleFunc("/rooms", wsHandler.GetAllRooms).Methods("GET")
 	// ?name={}
 	r.HandleFunc("/rooms", wsHandler.CreateRoom).Methods("POST")
 	// ?username={}
