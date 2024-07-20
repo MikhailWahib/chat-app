@@ -31,24 +31,21 @@ const Room = () => {
 
   // Establish WS connection
   useEffect(() => {
-    let socket: WebSocket
+    if (!roomId || !username) return
 
-    if (roomId && username) {
-      socket = connectWs(roomId, username)
-      setWS(socket)
+    const socket = connectWs(roomId, username)
+    setWS(socket)
 
-      socket.onmessage = (event) => {
-        const newMsg = JSON.parse(event.data)
-        setMessages((prevMessages) => [...prevMessages, newMsg])
-      }
+    socket.onmessage = (event) => {
+      const newMsg = JSON.parse(event.data)
+      setMessages((prevMessages) => [...prevMessages, newMsg])
     }
 
     return () => {
-      if (socket) {
-        socket.close()
-      }
+      socket.close()
     }
-  }, [roomId, username, setWS, setMessages])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [roomId, username, setWS])
 
   // Update Room members on each join/leave
   useEffect(() => {
