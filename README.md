@@ -1,6 +1,6 @@
 # Fullstack Chat App
 
-A real-time chat application built with Go and React with TypeScript.
+A real-time chat application built with Go, React with TypeScript, and WebSockets.
 
 ## Tech Stack
 
