@@ -64,28 +64,30 @@ const Room = () => {
   if (!room) return <div>Error: Room not found</div>
 
   return (
-    <div className="flex flex-col h-[calc(100vh-5rem)]">
-      <header>
-        <h1>{room?.name}</h1>
+    <div className='flex flex-col h-[calc(100vh-5rem)]'>
+      <header className='mb-5'>
+        <h1 className='font-bold text-2xl'>{room?.name}</h1>
         <h2>
-          <span className="text-green-500">Online members:</span>{' '}
+          <span className='text-green-500 font-bold text-xl'>
+            Online members:
+          </span>{' '}
           {room?.members.join(',')}
         </h2>
       </header>
       <main
-        className="pb-5 overflow-y-scroll"
+        className='pb-5 overflow-y-scroll text-lg'
         style={{ scrollbarWidth: 'none' }}
       >
         {messages.map((msg, i) => {
           return (
-            <div key={i} className="overflow-hidden break-words">
+            <div key={i} className='overflow-hidden break-words'>
               <Message msg={msg} />
             </div>
           )
         })}
         <div ref={messagesEndRef}></div>
       </main>
-      <div className="mt-auto">
+      <div className='mt-auto'>
         <ChatInput ws={ws} roomId={roomId} username={username} />
       </div>
     </div>
