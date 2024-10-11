@@ -1,8 +1,8 @@
 package main
 
 import (
-	"chat-app/api/router"
-	"chat-app/ws"
+	"github.com/MikhailWahib/chat-app/api/router"
+	"github.com/MikhailWahib/chat-app/ws"
 )
 
 func main() {

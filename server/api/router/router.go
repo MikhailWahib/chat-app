@@ -1,12 +1,13 @@
 package router
 
 import (
-	"chat-app/middleware"
-	"chat-app/ws"
 	"flag"
 	"fmt"
 	"log"
 	"net/http"
+
+	"github.com/MikhailWahib/chat-app/middleware"
+	"github.com/MikhailWahib/chat-app/ws"
 
 	"github.com/gorilla/mux"
 )

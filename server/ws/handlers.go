@@ -1,8 +1,9 @@
 package ws
 
 import (
-	"chat-app/utils"
 	"net/http"
+
+	"github.com/MikhailWahib/chat-app/utils"
 
 	"github.com/gorilla/mux"
 )

@@ -1,4 +1,4 @@
-module chat-app
+module github.com/MikhailWahib/chat-app
 
 go 1.22.4
 
