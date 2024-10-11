@@ -3,7 +3,8 @@
 # Function to run client
 run_client() {
     echo "Starting client..."
-    cd client
+    # Navigate to the /client dir
+    cd ~/chat-app/client
     pnpm i
     pnpm run dev &
     CLIENT_PID=$!
@@ -12,7 +13,7 @@ run_client() {
 # Function to run server
 run_server() {
     echo "Starting server..."
-    cd ../server
+    cd ~/chat-app/server
     go run *.go &
     SERVER_PID=$!
 }
