@@ -24,7 +24,7 @@ A real-time chat application built with Go, React with TypeScript, and WebSocket
 2. Run the application:
 
    ```
-   ./run
+   ./run.sh
    ```
 
    This script installs the dependencies and starts both the frontend and backend servers.
