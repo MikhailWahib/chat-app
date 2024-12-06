@@ -45,7 +45,7 @@ const Room = () => {
       socket.close()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [roomId, username, setWS])
+  }, [roomId, username])
 
   // Update Room members on each join/leave
   useEffect(() => {

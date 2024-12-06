@@ -1,36 +1,39 @@
 #!/bin/bash
 
-# Function to run client
+# Get the current directory.
+SCRIPT_DIR=$(dirname "$(realpath "$0")")
+
 run_client() {
     echo "Starting client..."
-    # Navigate to the /client dir
-    cd ~/chat-app/client
-    pnpm i
+    cd "$SCRIPT_DIR/client" || { echo "Failed to navigate to client directory"; exit 1; }
+    pnpm install || { echo "Failed to install client dependencies"; exit 1; }
     pnpm run dev &
     CLIENT_PID=$!
+    echo "Client running with PID $CLIENT_PID"
 }
 
-# Function to run server
 run_server() {
     echo "Starting server..."
-    cd ~/chat-app/server
+    cd "$SCRIPT_DIR/server" || { echo "Failed to navigate to server directory"; exit 1; }
     go run *.go &
     SERVER_PID=$!
+    echo "Server running with PID $SERVER_PID"
 }
 
-# Function to stop all processes
 stop_all() {
     echo "Stopping all processes..."
-    kill $CLIENT_PID $SERVER_PID
+    if [[ -n $CLIENT_PID ]]; then
+        kill $CLIENT_PID 2>/dev/null && echo "Stopped client (PID $CLIENT_PID)"
+    fi
+    if [[ -n $SERVER_PID ]]; then
+        kill $SERVER_PID 2>/dev/null && echo "Stopped server (PID $SERVER_PID)"
+    fi
     exit
 }
 
-# Set up trap to catch SIGINT (Ctrl+C) and stop all processes
 trap stop_all SIGINT
 
-# Run client and server
 run_client
 run_server
 
-# Wait for processes to finish
-wait $CLIENT_PID $SERVER_PID
+wait
