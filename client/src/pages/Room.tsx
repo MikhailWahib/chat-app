@@ -64,30 +64,39 @@ const Room = () => {
   if (!room) return <div>Error: Room not found</div>
 
   return (
-    <div className='flex flex-col h-[calc(100vh-5rem)]'>
-      <header className='mb-5'>
-        <h1 className='font-bold text-2xl'>{room?.name}</h1>
-        <h2>
-          <span className='text-green-500 font-bold text-xl'>
-            Online members:
-          </span>{' '}
-          {room?.members.join(',')}
+    <div className='flex flex-col h-[calc(100vh-5rem)] max-w-6xl mx-auto px-4'>
+      <header className='mb-6 p-4 bg-gray-800/50 rounded-lg backdrop-blur-sm'>
+        <h1 className='font-bold text-3xl bg-gradient-to-r from-blue-400 to-purple-600 bg-clip-text text-transparent'>
+          {room?.name}
+        </h1>
+        <h2 className='mt-2'>
+          <span className='text-emerald-400 font-semibold'>Online members</span>
+          <div className='mt-1 flex flex-wrap gap-2'>
+            {room?.members.map((member) => (
+              <span className='px-3 py-1 bg-gray-700/50 rounded-full text-sm'>
+                {member}
+              </span>
+            ))}
+          </div>
         </h2>
       </header>
       <main
-        className='pb-5 overflow-y-scroll text-lg'
+        className='pb-5 overflow-y-scroll text-lg px-2'
         style={{ scrollbarWidth: 'none' }}
       >
         {messages.map((msg, i) => {
           return (
-            <div key={i} className='overflow-hidden break-words'>
+            <div
+              key={i}
+              className='overflow-hidden break-words animate-messageIn'
+            >
               <Message msg={msg} />
             </div>
           )
         })}
         <div ref={messagesEndRef}></div>
       </main>
-      <div className='mt-auto'>
+      <div className='mt-auto p-4 bg-gray-800/30 rounded-t-lg backdrop-blur-sm'>
         <ChatInput ws={ws} roomId={roomId} username={username} />
       </div>
     </div>

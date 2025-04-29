@@ -1,46 +1,53 @@
-import { useState } from 'react'
+import { useState, KeyboardEvent } from 'react'
+import Button from '../Shared/Button'
 
 interface Props {
-	ws: WebSocket | undefined | null
+	ws: WebSocket | null
 	username: string
 	roomId: string
 }
 
 const ChatInput = ({ ws, username, roomId }: Props) => {
-	const [messageContent, setMessageContent] = useState<string>('')
+	const [message, setMessage] = useState('')
 
-	const handleSend = (e: React.FormEvent) => {
-		e.preventDefault()
+	const sendMessage = () => {
+		if (!ws || message.trim() === '') return
 
-		if (messageContent === '') return
-
-		const msgToSend = JSON.stringify({
+		ws.send(JSON.stringify({
 			type: 'message',
-			content: messageContent,
-			username: username,
-			roomId: roomId,
-		})
+			content: message,
+			username,
+			roomId,
+			timestamp: new Date().toISOString(),
+		}))
 
-		ws?.send(msgToSend)
-		setMessageContent('')
+		setMessage('')
+	}
+
+	const handleKeyPress = (e: KeyboardEvent) => {
+		if (e.key === 'Enter' && !e.shiftKey) {
+			e.preventDefault()
+			sendMessage()
+		}
 	}
 
 	return (
-		<form onSubmit={handleSend} className='flex gap-2 h-10'>
-			<input
-				value={messageContent}
-				onChange={(e) => setMessageContent(e.target.value)}
-				type='text'
-				placeholder='Type your message here'
-				className='flex-1 px-2 py-1 text-sm rounded bg-black border border-gray-600'
+		<div className="flex gap-3">
+			<textarea
+				value={message}
+				onChange={(e) => setMessage(e.target.value)}
+				onKeyDown={handleKeyPress}
+				placeholder="Type a message..."
+				className="flex-1 bg-gray-700/50 rounded-lg p-3 min-h-[45px] max-h-32 focus:outline-none focus:ring-2 focus:ring-purple-500 resize-y"
 			/>
-			<button
-				formAction='submit'
-				className='bg-white text-black rounded px-2 py-1'
+			<Button
+				onClick={sendMessage}
+				size="sm"
+				className="self-end"
 			>
 				Send
-			</button>
-		</form>
+			</Button>
+		</div>
 	)
 }
 
