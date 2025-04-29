@@ -1,6 +1,7 @@
-import { useContext, useEffect, useRef, useState } from 'react'
+import { useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { UsernameContext } from '../../providers/UsernameProvider'
+import Button from '../Shared/Button'
 
 const CreateRoomModal = ({
 	setShowCreateRoomModal,
@@ -9,9 +10,6 @@ const CreateRoomModal = ({
 }) => {
 	const navigate = useNavigate()
 	const { username, setUsername } = useContext(UsernameContext)
-
-	const usernameInputRef = useRef<HTMLInputElement>(null)
-
 	const [roomName, setRoomName] = useState<string>('')
 	const [error, setError] = useState<string>('')
 
@@ -38,47 +36,47 @@ const CreateRoomModal = ({
 		navigate(`/room/${data.roomId}`)
 	}
 
-	useEffect(() => {
-		if (username.length > 0 && usernameInputRef.current) {
-			usernameInputRef.current.value = username
-		}
-		// eslint-disable-next-line
-	}, [])
-
 	return (
-		<div className='flex absolute top-0 left-0 h-screen w-full z-50 bg-black/50'>
-			<div className='relative flex justify-center items-center w-full max-w-[75%] md:max-w-[30%] py-10 rounded border border-gray-600 bg-black m-auto'>
+		<div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+			<div className="bg-gray-800/90 rounded-xl p-6 w-full max-w-md animate-fadeIn relative">
 				<button
-					className='absolute top-4 right-5'
 					onClick={() => setShowCreateRoomModal(false)}
+					className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors"
 				>
-					X
+					<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+						<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+					</svg>
 				</button>
-				<form
-					onSubmit={formHandler}
-					className='flex flex-col w-full px-5 text-start gap-1 text-xl'
-				>
-					<label>Your Name</label>
-					<input
-						autoFocus
-						ref={usernameInputRef}
-						type='text'
-						className='mb-5 px-2 py-1 text-sm rounded bg-black border border-gray-600'
-						onChange={(e) => setUsername(e.target.value)}
-					/>
-					<label>Room Name: </label>
-					<input
-						type='text'
-						className='mb-5 px-2 py-1 text-sm rounded bg-black border border-gray-600'
-						onChange={(e) => setRoomName(e.target.value)}
-					/>
-					{error && <div className='text-red-700 text-sm'>{error}</div>}
-					<button
-						formAction='submit'
-						className='mt-5 p-2 bg-black border border-gray-600 rounded hover:shadow-2xl hover:shadow-white/15 hover:scale-[1.01] transition-all duration-200'
-					>
-						Create
-					</button>
+				<h2 className="text-2xl font-bold mb-4 bg-gradient-to-r from-blue-400 to-purple-600 bg-clip-text text-transparent">
+					Create Room
+				</h2>
+				<form onSubmit={formHandler} className="space-y-4">
+					<div>
+						<label className="text-sm text-gray-300 mb-1 block">Your Name</label>
+						<input
+							autoFocus
+							type="text"
+							placeholder="Username"
+							defaultValue={username}
+							className="w-full px-4 py-2 bg-gray-700/50 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+							onChange={(e) => setUsername(e.target.value)}
+						/>
+					</div>
+					<div>
+						<label className="text-sm text-gray-300 mb-1 block">Room Name</label>
+						<input
+							type="text"
+							placeholder="Room name"
+							className="w-full px-4 py-2 bg-gray-700/50 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+							onChange={(e) => setRoomName(e.target.value)}
+						/>
+					</div>
+					{error && <p className="text-red-400 text-sm">{error}</p>}
+					<div className="flex">
+						<Button type="submit" className="w-full">
+							Create Room
+						</Button>
+					</div>
 				</form>
 			</div>
 		</div>
