@@ -2,6 +2,9 @@
 
 A real-time chat application built with Go, React with TypeScript, and WebSockets.
 
+![output](https://github.com/user-attachments/assets/be75a698-f5c6-422c-ab97-82ee770a63ee)
+
+
 ## Tech Stack
 
 - Frontend: React with TypeScript
